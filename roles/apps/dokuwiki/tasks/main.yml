@@ -1,0 +1,58 @@
+- name: Dokuwiki group
+  group:
+    name: dokuwiki
+    state: present
+    gid: "{{ gid }}"
+
+- name: Dokuwiki user
+  user:
+    name: dokuwiki
+    state: present
+    uid: "{{ uid }}"
+    group: dokuwiki
+
+- name: Create the configuration directory
+  file:
+     path: '{{ docker_dir }}/{{ container_name }}'
+     state: directory
+     recurse: yes
+     owner: dokuwiki
+     group: dokuwiki
+     mode: "770"
+
+- name: Make sure the {{ container_name }} container is created and is running
+  docker_container:
+    name: "{{ container_name }}"
+    image: lscr.io/linuxserver/dokuwiki:latest
+    state: 'started'
+    env:
+      PUID: "{{ uid  }}"
+      PGID: "{{ gid }}"
+      TZ: "{{ timezone }}"
+      VIRTUAL_HOST: "{{ wiki_host }}"
+      VIRTUAL_PORT: "80"
+    volumes:
+      - '{{ docker_dir }}/{{ container_name }}:/config'
+    exposed:
+      - '80'
+    restart_policy: unless-stopped
+
+- name: Install {{ template_name }} template archive
+  unarchive:
+    src: https://github.com/saschaleib/dokuwiki-template-ad-hominem/archive/refs/tags/{{ template_release }}.tar.gz
+    dest: "{{ docker_dir }}/{{ container_name }}/dokuwiki/lib/tpl"
+    remote_src: yes
+    creates: "dokuwiki-template-{{ template_name }}-{{ template_release }}"
+    owner: dokuwiki
+    group: dokuwiki
+
+- name: Setup dokuwiki local config
+  template:
+    src: ./templates/local.php.conf
+    dest: "{{ docker_dir }}/{{ container_name }}/dokuwiki/conf/local.php"
+    owner: dokuwiki
+    group: dokuwiki
+    mode: "770"
+  vars:
+    title: "Farmer Wiki"
+    template: 'dokuwiki-template-{{ template_name }}-{{ template_release }}'

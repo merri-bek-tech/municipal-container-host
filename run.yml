@@ -14,3 +14,7 @@
       tags:
         - apps
         - nginx-proxy
+    - role: apps/dokuwiki
+      tags:
+        - apps
+        - dokuwiki
