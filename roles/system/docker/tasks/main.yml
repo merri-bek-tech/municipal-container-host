@@ -7,42 +7,42 @@
     state: present
     name: "{{ docker_deps }}"
 
-# - name: Install Docker
-#   block:
-#     - name: Add Docker GPG apt Key
-#       apt_key:
-#         url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
-#         state: present
-#     - name: Add Docker Repository
-#       apt_repository:
-#         repo: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
-#         state: present
+- name: Install Docker
+  block:
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+        state: present
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+        state: present
 
-# - name: Install docker-ce
-#   apt:
-#     name: "{{ docker_packages }}"
-#     state: present
+- name: Install docker-ce
+  apt:
+    name: "{{ docker_packages }}"
+    state: present
 
-# - name: Ensure group docker exists
-#   group:
-#     name: docker
-#     state: present
+- name: Ensure group docker exists
+  group:
+    name: docker
+    state: present
 
-# - name: Add user "{{ username }}" to group docker
-#   user:
-#     name: '{{ username }}'
-#     groups:
-#       - docker
-#     append: true
+- name: Add user "{{ ansible_user }}" to group docker
+  user:
+    name: '{{ ansible_user }}'
+    groups:
+      - docker
+    append: true
 
-# - name: Create the Docker data directory
-#   file:
-#     path: /opt/docker/data
-#     state: directory
-#     mode: '0755'
+- name: Create the Docker data directory
+  file:
+    path: /opt/docker/data
+    state: directory
+    mode: '0755'
 
-# - name: Make sure Docker is running and enabled
-#   service:
-#     name: docker
-#     state: started
-#     enabled: true
+- name: Make sure Docker is running and enabled
+  service:
+    name: docker
+    state: started
+    enabled: true
