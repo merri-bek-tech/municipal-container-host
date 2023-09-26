@@ -1,11 +1,11 @@
-# ---
-# - name: Include Docker package variables
-#   include_vars: "packages.yml"
+---
+- name: Include Docker package variables
+  include_vars: "packages.yml"
 
-# - name: Install required system packages
-#   package:
-#     state: present
-#     name: "{{ docker_deps }}"
+- name: Install required system packages
+  package:
+    state: present
+    name: "{{ docker_deps }}"
 
 # - name: Install Docker
 #   block:
