@@ -10,3 +10,7 @@
       tags:
         - docker
         - system
+    - role: apps/nginx-proxy
+      tags:
+        - apps
+        - nginx-proxy
