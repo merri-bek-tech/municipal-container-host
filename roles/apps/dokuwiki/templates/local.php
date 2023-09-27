@@ -7,3 +7,4 @@ $conf['sepchar']     = '_';              //word separator character in page name
                                          //  letter, a digit, '_', '-', or '.'.
 $conf['useacl']      = 1;
 $conf['superuser']   = '@admin';
+$conf['disableactions'] = 'register';
