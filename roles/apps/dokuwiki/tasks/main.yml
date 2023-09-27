@@ -33,7 +33,7 @@
       PUID: "{{ uid  }}"
       PGID: "{{ gid }}"
       TZ: "{{ timezone }}"
-      VIRTUAL_HOST: "{{ wiki_host }}"
+      VIRTUAL_HOST: "{{ wiki_host }},*.{{ wiki_host }}"
       VIRTUAL_PORT: "80"
     volumes:
       - '{{ docker_dir }}/{{ container_name }}:/config'
@@ -90,16 +90,56 @@
     src: "https://github.com/cosmocode/dokuwiki-plugin-farmer/archive/refs/tags/2023-04-05.tar.gz"
     dest: "{{ dokuwiki_dir }}/lib/plugins"
     remote_src: yes
-    creates: "{{ dokuwiki_dir }}/lib/plugins/dokuwiki-plugin-farmer-2023-04-05"
+    creates: "{{ dokuwiki_dir }}/lib/plugins/farmer"
     owner: dokuwiki
     group: dokuwiki
 
 - name: Rename the farmer plugin
   command: "mv {{ dokuwiki_dir }}/lib/plugins/dokuwiki-plugin-farmer-2023-04-05 {{ dokuwiki_dir }}/lib/plugins/farmer"
   args:
-    creates: "clib/plugins/farmer"
+    creates: "{{ dokuwiki_dir }}/lib/plugins/farmer"
 
 - name: Remove authad plugin
   file:
     path: "{{ dokuwiki_dir }}/lib/plugins/authad"
     state: absent
+
+- name: Remove authldap plugin
+  file:
+    path: "{{ dokuwiki_dir }}/lib/plugins/authldap"
+    state: absent
+
+- name: Remove authlpdo plugin
+  file:
+    path: "{{ dokuwiki_dir }}/lib/plugins/authlpdo"
+    state: absent
+
+- name: Add animals dir
+  file:
+    path: "{{ dokuwiki_dir }}/animals"
+    state: directory
+    recurse: no
+    owner: dokuwiki
+    group: dokuwiki
+    mode: "770"
+
+- name: Give dokuwiki access to public dir
+  file:
+    path: "{{ dokuwiki_dir }}/animals"
+    state: directory
+    recurse: no
+    owner: dokuwiki
+    group: dokuwiki
+    mode: "770"
+
+- name: Setup farm.ini config
+  template:
+    src: ./templates/farm.ini
+    dest: "{{ dokuwiki_dir }}/conf/farm.ini"
+    owner: dokuwiki
+    group: dokuwiki
+    mode: "770"
+  vars:
+    farmhost: '{{ wiki_host }}'
+    basedomain: '{{ wiki_host }}'
+    farmdir: '/config/dokuwiki/animals/'
