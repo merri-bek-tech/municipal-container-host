@@ -15,3 +15,5 @@ Upload your ssh key
 
 * Does not currently support wildcard SSL certificates
 Consider using https://dnsrobocert.readthedocs.io/en/latest/user_guide.html instead
+
+https://gist.github.com/aaccioly/409205f5b87228cae7a69aafa31a0924?permalink_comment_id=4702163
