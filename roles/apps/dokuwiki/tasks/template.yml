@@ -1,0 +1,13 @@
+- name: Install {{ template_name }} template archive
+  unarchive:
+    src: https://github.com/saschaleib/dokuwiki-template-ad-hominem/archive/refs/tags/{{ template_release }}.tar.gz
+    dest: "{{ dokuwiki_dir }}/lib/tpl"
+    remote_src: yes
+    creates: "{{ dokuwiki_dir }}/lib/tpl/dokuwiki-template-{{ template_name }}-{{ template_release }}"
+    owner: dokuwiki
+    group: dokuwiki
+
+- name: Rename the {{ template_name }} template
+  command: "mv {{ dokuwiki_dir }}/lib/tpl/dokuwiki-template-{{ template_name }}-{{ template_release }} {{ dokuwiki_dir }}/lib/tpl/{{ template_name }}"
+  args:
+    creates: "{{ dokuwiki_dir }}/lib/tpl/{{ template_name }}"

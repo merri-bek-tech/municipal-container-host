@@ -14,3 +14,4 @@ Upload your ssh key
 ## TODO
 
 * Does not currently support wildcard SSL certificates
+Consider using https://dnsrobocert.readthedocs.io/en/latest/user_guide.html instead

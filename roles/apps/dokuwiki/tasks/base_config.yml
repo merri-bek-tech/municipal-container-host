@@ -1,0 +1,44 @@
+- name: Setup dokuwiki local config
+  template:
+    src: ./templates/local.php
+    dest: "{{ dokuwiki_dir }}/conf/local.php"
+    owner: dokuwiki
+    group: dokuwiki
+    mode: "770"
+  vars:
+    title: "Farmer Wiki"
+    template: '{{ template_name }}'
+
+- name: Copy dist acl config
+  copy:
+    src: "{{ dokuwiki_dir }}/conf/acl.auth.php.dist"
+    remote_src: true
+    dest: "{{ dokuwiki_dir }}/conf/acl.auth.php"
+    owner: dokuwiki
+    group: dokuwiki
+    mode: "770"
+    force: false
+
+- name: Setup initial users file
+  template:
+    src: ./templates/users.auth.php
+    dest: "{{ dokuwiki_dir }}/conf/users.auth.php"
+    owner: dokuwiki
+    group: dokuwiki
+    mode: "770"
+    force: false
+
+- name: Remove authad plugin
+  file:
+    path: "{{ dokuwiki_dir }}/lib/plugins/authad"
+    state: absent
+
+- name: Remove authldap plugin
+  file:
+    path: "{{ dokuwiki_dir }}/lib/plugins/authldap"
+    state: absent
+
+- name: Remove authlpdo plugin
+  file:
+    path: "{{ dokuwiki_dir }}/lib/plugins/authlpdo"
+    state: absent

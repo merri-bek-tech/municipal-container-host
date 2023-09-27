@@ -1,0 +1,40 @@
+- name: Dokuwiki group
+  group:
+    name: dokuwiki
+    state: present
+    gid: "{{ gid }}"
+
+- name: Dokuwiki user
+  user:
+    name: dokuwiki
+    state: present
+    uid: "{{ uid }}"
+    group: dokuwiki
+
+- name: Create the configuration directory
+  file:
+     path: '{{ docker_dir }}/{{ container_name }}'
+     state: directory
+     recurse: no
+     owner: dokuwiki
+     group: dokuwiki
+     mode: "770"
+
+- name: Make sure the {{ container_name }} container is created and is running
+  docker_container:
+    name: "{{ container_name }}"
+    image: lscr.io/linuxserver/dokuwiki:latest
+    state: 'started'
+    env:
+      PUID: "{{ uid  }}"
+      PGID: "{{ gid }}"
+      TZ: "{{ timezone }}"
+      VIRTUAL_HOST: "{{ wiki_host }},*.{{ wiki_host }}"
+      LETSENCRYPT_HOST: "{{ wiki_certificate_host }}"
+      LETSENCRYPT_EMAIL: "{{ certificate_email }}"
+      VIRTUAL_PORT: "80"
+    volumes:
+      - '{{ docker_dir }}/{{ container_name }}:/config'
+    exposed:
+      - '80'
+    restart_policy: unless-stopped

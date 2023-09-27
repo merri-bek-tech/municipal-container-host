@@ -1,0 +1,16 @@
+---
+
+
+- name: Setup the ACME container for SSL certificates
+  docker_container:
+    name: "{{ container_name }}-acme"
+    image: nginxproxy/acme-companion
+    state: 'started'
+    restart_policy: unless-stopped
+    volumes_from: "{{ container_name }}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - acme:/etc/acme.sh
+    env:
+      DEFAULT_EMAIL: "{{ certificate_email }}"
+      DEBUG: "1"
