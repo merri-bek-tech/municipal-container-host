@@ -10,3 +10,7 @@ Approach varies with OS setup
 
 Upload your ssh key
 `ssh-copy-id -i ~/.ssh/id_ed25519 ansible@HOSTNAME`
+
+## TODO
+
+* Does not currently support wildcard SSL certificates

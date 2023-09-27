@@ -1,12 +1,19 @@
+---
 - name: Make sure the {{ container_name }} container is created and is running
   docker_container:
     name: "{{ container_name }}"
     image: nginxproxy/nginx-proxy
     state: 'started'
+    restart_policy: unless-stopped
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
     ports:
       - '80:80'
+      - '443:443'
     env:
       DEFAULT_ROOT: "302 /wiki/"
-    restart_policy: unless-stopped
+
+- include_tasks: acme.yml
