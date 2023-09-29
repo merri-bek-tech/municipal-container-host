@@ -45,7 +45,10 @@
 - name: Setup the preload.php file
   template:
     src: ./templates/preload.php
-    dest: "{{ dokuwiki_dir }}/inc/preload.php"
+    dest: "{{ dokuwiki_dir }}/preload.php"
     owner: dokuwiki
     group: dokuwiki
     mode: "770"
+
+- name: Copy file into existing container at /path/in/the/container/kapaci
+  shell: docker cp {{ dokuwiki_dir }}/preload.php {{ container_name }}:/app/www/public/inc/
