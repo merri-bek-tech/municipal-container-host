@@ -4,7 +4,7 @@
     src: https://github.com/saschaleib/dokuwiki-template-ad-hominem/archive/refs/tags/{{ template_release }}.tar.gz
     dest: "{{ dokuwiki_dir }}/lib/tpl"
     remote_src: yes
-    creates: "{{ dokuwiki_dir }}/lib/tpl/dokuwiki-template-{{ template_name }}-{{ template_release }}"
+    creates: "{{ dokuwiki_dir }}/lib/tpl/{{ template_name }}"
     owner: dokuwiki
     group: dokuwiki
 

@@ -1,40 +1,4 @@
 ---
-- name: Create the lib directory
-  file:
-     path: "{{ dokuwiki_dir }}/lib"
-     state: directory
-     recurse: no
-     owner: dokuwiki
-     group: dokuwiki
-     mode: "770"
-
-# - name: Create the tmpl directory
-#   file:
-#      path: "{{ dokuwiki_dir }}/lib/tpl"
-#      state: directory
-#      recurse: no
-#      owner: dokuwiki
-#      group: dokuwiki
-#      mode: "770"
-
-# - name: Create the plugins directory
-#   file:
-#      path: "{{ dokuwiki_dir }}/lib/plugins"
-#      state: directory
-#      recurse: no
-#      owner: dokuwiki
-#      group: dokuwiki
-#      mode: "770"
-
-# - name: Create the conf directory
-#   file:
-#      path: "{{ dokuwiki_dir }}/conf/plugins"
-#      state: directory
-#      recurse: no
-#      owner: dokuwiki
-#      group: dokuwiki
-#      mode: "770"
-
 - name: Setup dokuwiki local config
   template:
     src: ./templates/local.php
@@ -46,24 +10,24 @@
     title: "Farmer Wiki"
     template: '{{ template_name }}'
 
-- name: Copy dist acl config
-  copy:
-    src: "{{ dokuwiki_dir }}/conf/acl.auth.php.dist"
-    remote_src: true
-    dest: "{{ dokuwiki_dir }}/conf/acl.auth.php"
-    owner: dokuwiki
-    group: dokuwiki
-    mode: "770"
-    force: false
+# - name: Copy dist acl config
+#   copy:
+#     src: "{{ dokuwiki_dir }}/conf/acl.auth.php.dist"
+#     remote_src: true
+#     dest: "{{ dokuwiki_dir }}/conf/acl.auth.php"
+#     owner: dokuwiki
+#     group: dokuwiki
+#     mode: "770"
+#     force: false
 
-- name: Setup initial users file
-  template:
-    src: ./templates/users.auth.php
-    dest: "{{ dokuwiki_dir }}/conf/users.auth.php"
-    owner: dokuwiki
-    group: dokuwiki
-    mode: "770"
-    force: false
+# - name: Setup initial users file
+#   template:
+#     src: ./templates/users.auth.php
+#     dest: "{{ dokuwiki_dir }}/conf/users.auth.php"
+#     owner: dokuwiki
+#     group: dokuwiki
+#     mode: "770"
+#     force: false
 
 - name: Remove authad plugin
   file:

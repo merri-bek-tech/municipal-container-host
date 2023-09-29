@@ -1,5 +1,5 @@
 - include_tasks: preconditions.yml
 - include_tasks: container.yml
-# - include_tasks: base_config.yml
-# - include_tasks: template.yml
+- include_tasks: base_config.yml
+- include_tasks: template.yml
 # - include_tasks: farmer.yml
