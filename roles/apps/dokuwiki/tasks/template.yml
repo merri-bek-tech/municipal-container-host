@@ -1,3 +1,4 @@
+---
 - name: Install {{ template_name }} template archive
   unarchive:
     src: https://github.com/saschaleib/dokuwiki-template-ad-hominem/archive/refs/tags/{{ template_release }}.tar.gz

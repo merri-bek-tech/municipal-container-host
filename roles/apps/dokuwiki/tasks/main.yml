@@ -1,8 +1,5 @@
-- name: Dokuwiki facts
-  ansible.builtin.set_fact:
-    dokuwiki_dir: "{{ docker_dir }}/{{ container_name }}/dokuwiki"
-
+- include_tasks: preconditions.yml
 - include_tasks: container.yml
-- include_tasks: template.yml
-- include_tasks: base_config.yml
-- include_tasks: farmer.yml
+# - include_tasks: base_config.yml
+# - include_tasks: template.yml
+# - include_tasks: farmer.yml

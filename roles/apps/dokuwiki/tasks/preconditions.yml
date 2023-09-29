@@ -1,0 +1,25 @@
+- name: Dokuwiki group
+  group:
+    name: dokuwiki
+    state: present
+    gid: "{{ gid }}"
+
+- name: Dokuwiki user
+  user:
+    name: dokuwiki
+    state: present
+    uid: "{{ uid }}"
+    group: dokuwiki
+
+- name: Create the data directory
+  file:
+     path: '{{ docker_dir }}/{{ container_name }}'
+     state: directory
+     recurse: no
+     owner: dokuwiki
+     group: dokuwiki
+     mode: "770"
+
+- name: Dokuwiki facts
+  ansible.builtin.set_fact:
+    dokuwiki_dir: "{{ docker_dir }}/{{ container_name }}/config/dokuwiki"

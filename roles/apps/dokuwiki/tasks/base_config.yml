@@ -1,3 +1,40 @@
+---
+- name: Create the lib directory
+  file:
+     path: "{{ dokuwiki_dir }}/lib"
+     state: directory
+     recurse: no
+     owner: dokuwiki
+     group: dokuwiki
+     mode: "770"
+
+# - name: Create the tmpl directory
+#   file:
+#      path: "{{ dokuwiki_dir }}/lib/tpl"
+#      state: directory
+#      recurse: no
+#      owner: dokuwiki
+#      group: dokuwiki
+#      mode: "770"
+
+# - name: Create the plugins directory
+#   file:
+#      path: "{{ dokuwiki_dir }}/lib/plugins"
+#      state: directory
+#      recurse: no
+#      owner: dokuwiki
+#      group: dokuwiki
+#      mode: "770"
+
+# - name: Create the conf directory
+#   file:
+#      path: "{{ dokuwiki_dir }}/conf/plugins"
+#      state: directory
+#      recurse: no
+#      owner: dokuwiki
+#      group: dokuwiki
+#      mode: "770"
+
 - name: Setup dokuwiki local config
   template:
     src: ./templates/local.php

@@ -41,3 +41,11 @@
     farmhost: '{{ wiki_host }}'
     basedomain: '{{ wiki_host }}'
     farmdir: '/config/dokuwiki/animals/'
+
+- name: Setup the preload.php file
+  template:
+    src: ./templates/preload.php
+    dest: "{{ dokuwiki_dir }}/inc/preload.php"
+    owner: dokuwiki
+    group: dokuwiki
+    mode: "770"
