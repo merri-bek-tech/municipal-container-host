@@ -1,0 +1,7 @@
+---
+- name: Make sure the {{ container_name }} container is created and is running
+  docker_container:
+    name: "{{ container_name }}"
+    image: adferrand/dnsrobocert
+    state: 'started'
+    restart_policy: unless-stopped

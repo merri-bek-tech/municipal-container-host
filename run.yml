@@ -18,3 +18,7 @@
       tags:
         - apps
         - dokuwiki
+    - role: apps/dnsrobocert
+      tags:
+        - apps
+        - dnsrobocert
