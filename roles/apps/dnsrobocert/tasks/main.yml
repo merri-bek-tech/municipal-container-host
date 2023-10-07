@@ -1,8 +1,15 @@
 ---
+- name: Ensure dnsrobocert config directory
+  file:
+    path: /etc/dnsrobocert
+    state: directory
+    recurse: no
+    mode: "770"
+
 - name: Setup dnsrobocert configuration file
   template:
     src: ./templates/config.yml
-    dest: "{{ dnsrobocert_config  }}"
+    dest: /etc/dnsrobocert/config.yml
     mode: "770"
 
 - name: Make sure the {{ container_name }} container is created and is running
@@ -12,5 +19,5 @@
     state: 'started'
     restart_policy: unless-stopped
     volumes:
-      - "{{ dnsrobocert_config  }}:/etc/dnsrobocert/config.yml"
+      - "/etc/dnsrobocert/config.yml:/etc/dnsrobocert/config.yml"
       - /etc/letsencrypt:/etc/letsencrypt
