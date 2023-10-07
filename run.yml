@@ -7,6 +7,8 @@
   roles:
     - role: apps/nginx-proxy
     - role: apps/dnsrobocert
+      tags:
+        - dnsrobocert
     - role: apps/dokuwiki
     # - role: apps/dokuwiki
     #   tags:

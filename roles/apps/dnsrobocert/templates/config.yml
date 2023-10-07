@@ -1,1 +1,8 @@
-draft: true
+acme:
+  email_account: admin@merri-bek.tech
+  staging: true
+profiles:
+- name: digitalocean_profile
+  provider: digitalocean
+  provider_options:
+    authtoken: {{ auth_token }}
