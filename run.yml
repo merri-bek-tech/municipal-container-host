@@ -4,9 +4,9 @@
     - role: system/essential
     - role: system/docker
     - role: apps/nginx-proxy
-# - hosts: wiki
-#   roles:
-#     - role: apps/dokuwiki
+- hosts: wiki
+  roles:
+    - role: apps/dokuwiki
 
     # - role: apps/dokuwiki
     #   tags:
