@@ -1,7 +1,16 @@
 ---
+- name: Setup dnsrobocert configuration file
+  template:
+    src: ./templates/config.yml
+    dest: "{{ dnsrobocert_config  }}"
+    mode: "770"
+
 - name: Make sure the {{ container_name }} container is created and is running
   docker_container:
     name: "{{ container_name }}"
     image: adferrand/dnsrobocert
     state: 'started'
     restart_policy: unless-stopped
+    volumes:
+      - "{{ dnsrobocert_config  }}:/etc/dnsrobocert/config.yml"
+      - /etc/letsencrypt:/etc/letsencrypt

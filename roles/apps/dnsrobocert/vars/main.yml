@@ -1,2 +1,4 @@
 ---
 container_name: dnsrobocert
+dnsrobocert_config: /etc/dnsrobocert/config.yml
+dnsrobocert_username: dnsrobocert
