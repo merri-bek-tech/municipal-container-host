@@ -1,24 +1,18 @@
 ---
-- hosts: all
-  become: true
+- hosts: webservers
   roles:
     - role: system/essential
-      tags:
-        - essential
-        - system
     - role: system/docker
-      tags:
-        - docker
-        - system
     - role: apps/nginx-proxy
-      tags:
-        - apps
-        - nginx-proxy
-    - role: apps/dokuwiki
-      tags:
-        - apps
-        - dokuwiki
-    - role: apps/dnsrobocert
-      tags:
-        - apps
-        - dnsrobocert
+# - hosts: wiki
+#   roles:
+#     - role: apps/dokuwiki
+
+    # - role: apps/dokuwiki
+    #   tags:
+    #     - apps
+    #     - dokuwiki
+    # - role: apps/dnsrobocert
+    #   tags:
+    #     - apps
+    #     - dnsrobocert
