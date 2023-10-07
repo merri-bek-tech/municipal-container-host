@@ -2,7 +2,12 @@ acme:
   email_account: admin@merri-bek.tech
   staging: true
 profiles:
-- name: digitalocean_profile
+- name: digitalocean
   provider: digitalocean
   provider_options:
     authtoken: {{ auth_token }}
+certificates:
+- domains:
+  - wiki.merri-bek.tech
+  - "*.wiki.merri-bek.tech"
+  profile: digitalocean
