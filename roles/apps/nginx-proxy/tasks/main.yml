@@ -28,13 +28,11 @@
       - "{{ container_dir }}/certs:/etc/nginx/certs"
       - "{{ container_dir }}/vhost:/etc/nginx/vhost.d"
       - "{{ container_dir }}/html:/usr/share/nginx/html"
-      - "/usr/local/bin/deploy_certificates.sh:/usr/local/bin/deploy_certificates.sh:ro"
-      - "{{ letsencrypt_dir }}/live:/etc/letsencrypt/live:ro"
-      - "{{ letsencrypt_dir }}/archive:/etc/letsencrypt/archive:ro"
+      # - "/usr/local/bin/deploy_certificates.sh:/usr/local/bin/deploy_certificates.sh:ro"
+      # - "{{ letsencrypt_dir }}/live:/etc/letsencrypt/live:ro"
+      # - "{{ letsencrypt_dir }}/archive:/etc/letsencrypt/archive:ro"
     ports:
       - '80:80'
       - '443:443'
     env:
       DEFAULT_ROOT: "302 /wiki/"
-
-- include_tasks: acme.yml

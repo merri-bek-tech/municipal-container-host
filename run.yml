@@ -1,15 +1,16 @@
 ---
-- hosts: webservers
+- hosts: wiki
   roles:
     - role: system/essential
     - role: system/docker
-- hosts: wiki
-  roles:
     - role: apps/nginx-proxy
-      tags:
-        - nginx
+    - role: apps/nginx-proxy-acme
     # dnsrobocert is experimental here, it's not currently working
     # - role: apps/dnsrobocert
-    #   tags:
-    #     - nginx
     - role: apps/dokuwiki
+- hosts: websites
+  roles:
+    - role: system/essential
+    - role: system/docker
+    - role: apps/nginx-proxy
+#    - role: apps/sftp

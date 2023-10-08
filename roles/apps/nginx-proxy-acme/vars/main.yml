@@ -1,0 +1,3 @@
+---
+container_name: nginx-proxy-acme
+proxy_container_name: nginx-proxy
