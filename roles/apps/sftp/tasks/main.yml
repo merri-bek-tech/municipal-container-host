@@ -1,0 +1,30 @@
+- name: Create the data directory
+  file:
+     path: '{{ docker_dir }}/{{ container_name }}'
+     state: directory
+     recurse: no
+     mode: "770"
+
+- name: "{{ container_name }} facts"
+  ansible.builtin.set_fact:
+    container_dir: "{{ docker_dir }}/{{ container_name }}"
+
+- name: Create the users conf
+  template:
+    src: ./templates/users.conf
+    dest: '{{ container_dir }}/users.conf'
+    mode: "770"
+
+- name: Make sure the {{ container_name }} container is created and is running
+  docker_container:
+    name: "{{ container_name }}"
+    image: atmoz/sftp
+    state: 'started'
+    restart_policy: unless-stopped
+    ports:
+      - '2222:22'
+    volumes:
+      - '{{ container_dir }}/users.conf:/etc/sftp/users.conf:ro'
+      - '{{ container_dir }}/home:/home'
+      - '/etc/ssh/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key'
+      - '/etc/ssh/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key'
