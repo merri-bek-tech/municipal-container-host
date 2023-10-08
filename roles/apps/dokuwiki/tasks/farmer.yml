@@ -38,8 +38,8 @@
     group: dokuwiki
     mode: "770"
   vars:
-    farmhost: '{{ wiki_host }}'
-    basedomain: '{{ wiki_host }}'
+    farmhost: '{{ primary_wiki_host }}'
+    basedomain: '{{ primary_wiki_host }}'
     farmdir: '/config/dokuwiki/animals/'
 
 - name: Setup the preload.php file

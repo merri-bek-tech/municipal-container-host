@@ -7,8 +7,8 @@
       PUID: "{{ uid  }}"
       PGID: "{{ gid }}"
       TZ: "{{ timezone }}"
-      VIRTUAL_HOST: "{{ wiki_host }},*.{{ wiki_host }}"
-      # LETSENCRYPT_HOST: "{{ wiki_certificate_host }}"
+      VIRTUAL_HOST: "{{ primary_wiki_host }},{{ other_wiki_hosts | join(',') }}"
+      # LETSENCRYPT_HOST: "wiki.merri-bek.tech,redbug.wiki.panga.network"
       # LETSENCRYPT_EMAIL: "{{ certificate_email }}"
       VIRTUAL_PORT: "80"
     volumes:

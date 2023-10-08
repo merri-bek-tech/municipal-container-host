@@ -8,15 +8,8 @@
     - role: apps/nginx-proxy
       tags:
         - nginx
-    - role: apps/dnsrobocert
-      tags:
-        - nginx
-    - role: apps/dokuwiki
-    # - role: apps/dokuwiki
-    #   tags:
-    #     - apps
-    #     - dokuwiki
+    # dnsrobocert is experimental here, it's not currently working
     # - role: apps/dnsrobocert
     #   tags:
-    #     - apps
-    #     - dnsrobocert
+    #     - nginx
+    - role: apps/dokuwiki

@@ -1,6 +1,4 @@
 ---
-
-
 - name: Setup the ACME container for SSL certificates
   docker_container:
     name: "{{ container_name }}-acme"
