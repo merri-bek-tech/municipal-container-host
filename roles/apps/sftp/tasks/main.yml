@@ -14,6 +14,7 @@
     src: ./templates/users.conf
     dest: '{{ container_dir }}/users.conf'
     mode: "770"
+  register: sftp_users_config
 
 - name: Make sure the {{ container_name }} container is created and is running
   docker_container:
@@ -21,6 +22,7 @@
     image: atmoz/sftp
     state: 'started'
     restart_policy: unless-stopped
+    restart: "{{ sftp_users_config.changed | default(false) }}"
     ports:
       - '2222:22'
     volumes:
