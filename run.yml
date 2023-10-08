@@ -6,9 +6,11 @@
 - hosts: wiki
   roles:
     - role: apps/nginx-proxy
+      tags:
+        - nginx
     - role: apps/dnsrobocert
       tags:
-        - dnsrobocert
+        - nginx
     - role: apps/dokuwiki
     # - role: apps/dokuwiki
     #   tags:

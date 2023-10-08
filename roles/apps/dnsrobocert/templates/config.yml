@@ -5,7 +5,7 @@ profiles:
 - name: digitalocean
   provider: digitalocean
   provider_options:
-    authtoken: {{ auth_token }}
+    auth_token: "{{ auth_token }}"
 certificates:
 - domains:
   - wiki.merri-bek.tech
