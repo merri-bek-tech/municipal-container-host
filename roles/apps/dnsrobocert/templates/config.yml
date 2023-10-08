@@ -1,6 +1,5 @@
 acme:
   email_account: admin@merri-bek.tech
-  staging: true
 profiles:
 - name: digitalocean
   provider: digitalocean
@@ -11,3 +10,7 @@ certificates:
   - wiki.merri-bek.tech
   - "*.wiki.merri-bek.tech"
   profile: digitalocean
+  autocmd:
+  - cmd: [/usr/local/bin/deploy_certificates.sh, -v]
+    containers:
+    - nginx-proxy

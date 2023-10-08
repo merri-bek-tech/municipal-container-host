@@ -4,13 +4,18 @@
      path: '{{ docker_dir }}/{{ container_name }}'
      state: directory
      recurse: no
-     owner: dokuwiki
-     group: dokuwiki
      mode: "770"
 
 - name: "{{ container_name }} facts"
   ansible.builtin.set_fact:
     container_dir: "{{ docker_dir }}/{{ container_name }}"
+    letsencrypt_dir: "/etc/letsencrypt"
+
+- name: Create the certificate script
+  template:
+    src: ./templates/deploy_certificates.sh
+    dest: '/usr/local/bin/deploy_certificates.sh'
+    mode: "770"
 
 - name: Make sure the {{ container_name }} container is created and is running
   docker_container:
@@ -23,6 +28,9 @@
       - "{{ container_dir }}/certs:/etc/nginx/certs"
       - "{{ container_dir }}/vhost:/etc/nginx/vhost.d"
       - "{{ container_dir }}/html:/usr/share/nginx/html"
+      - "/usr/local/bin/deploy_certificates.sh:/usr/local/bin/deploy_certificates.sh:ro"
+      - "{{ letsencrypt_dir }}/live:/etc/letsencrypt/live:ro"
+      - "{{ letsencrypt_dir }}/archive:/etc/letsencrypt/archive:ro"
     ports:
       - '80:80'
       - '443:443'
