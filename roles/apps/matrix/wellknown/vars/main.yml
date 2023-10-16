@@ -1,0 +1,3 @@
+---
+container_name: matrix-wellknown-server
+docker_image: adrianrudnik/matrix-wellknown-server

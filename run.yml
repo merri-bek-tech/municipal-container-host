@@ -14,7 +14,8 @@
     - role: system/docker
     - role: apps/nginx-proxy
     - role: apps/nginx-proxy-acme
-    - role: apps/synapse
+    - role: apps/matrix/wellknown
+    - role: apps/matrix/synapse
 # - hosts: websites
 #   roles:
 #     - role: system/essential
