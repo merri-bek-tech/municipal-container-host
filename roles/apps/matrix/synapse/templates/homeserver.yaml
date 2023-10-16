@@ -26,7 +26,7 @@ database:
 
 log_config: "/config/{{ matrix_domain }}.log.config"
 media_store_path: /data/media_store
-registration_shared_secret: {{ synapse_registration_shared_secret | string|to_json }}
+registration_shared_secret: {{ synapse_registration_shared_secret | default(None) | string|to_json }}
 report_stats: false
 form_secret: {{ synapse_form_secret | string|to_json }}
 signing_key_path: "/config/{{ matrix_domain }}.signing.key"

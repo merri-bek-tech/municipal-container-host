@@ -98,3 +98,4 @@
       --admin)
       >> {{ synapse_config_dir }}/initial-admin-user.txt
     creates: "{{ synapse_config_dir }}/initial-admin-user.txt"
+  when: synapse_registration_shared_secret | default(None)
