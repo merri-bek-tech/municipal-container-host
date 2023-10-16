@@ -20,14 +20,14 @@
     expose:
       - '8080'
     env:
-      VIRTUAL_HOST: "{{ synapse_server_name }}"
-      LETSENCRYPT_HOST: "{{ synapse_server_name }}"
+      VIRTUAL_HOST: "{{ matrix_domain }}"
+      LETSENCRYPT_HOST: "{{ matrix_domain }}"
       LETSENCRYPT_EMAIL: "{{ certificate_email }}"
 
 - name: Setup wellknown server config
   template:
     src: ./templates/server.json
-    dest: "{{ wellknown_container_dir }}/{{ synapse_server_name }}.server.json"
+    dest: "{{ wellknown_container_dir }}/{{ matrix_domain }}.server.json"
     mode: "775"
   vars:
     matrix_server: '{{ inventory_hostname }}'
@@ -35,7 +35,7 @@
 - name: Setup wellknown client config
   template:
     src: ./templates/client.json
-    dest: "{{ wellknown_container_dir }}/{{ synapse_server_name }}.client.json"
+    dest: "{{ wellknown_container_dir }}/{{ matrix_domain }}.client.json"
     mode: "775"
   vars:
     matrix_server: '{{ inventory_hostname }}'

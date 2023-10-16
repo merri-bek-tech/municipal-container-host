@@ -16,6 +16,8 @@
     - role: apps/nginx-proxy-acme
     - role: apps/matrix/wellknown
     - role: apps/matrix/synapse
+      tags:
+        - dev
 # - hosts: websites
 #   roles:
 #     - role: system/essential

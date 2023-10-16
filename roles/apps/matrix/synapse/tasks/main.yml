@@ -12,7 +12,7 @@
      recurse: no
      mode: "770"
 
-- name: Create the confg directory
+- name: Create the config directory
   file:
     path: '{{ synapse_config_dir }}'
     state: directory
@@ -48,13 +48,21 @@
       --cap-drop=ALL
       --mount type=bind,src={{ synapse_config_dir }},dst=/config
       --mount type=bind,src={{ synapse_data_dir }},dst=/data
-      -e SYNAPSE_SERVER_NAME={{ synapse_server_name }}
+      -e SYNAPSE_SERVER_NAME={{ matrix_domain }}
       -e SYNAPSE_REPORT_STATS=no
       -e SYNAPSE_CONFIG_DIR=/config
       -e SYNAPSE_DATA_DIR=/data
       {{ synapse_docker_image }}
       generate
-    creates: "{{ synapse_config_dir }}/{{ synapse_server_name }}.signing.key"
+    creates: "{{ synapse_config_dir }}/{{ matrix_domain }}.signing.key"
+
+- name: Setup Synapse config from template
+  template:
+    src: ./templates/homeserver.yaml
+    dest: "{{ synapse_config_dir }}/homeserver.yaml"
+    mode: "644"
+    owner: "{{ synapse_uid }}"
+    group: "{{ synapse_gid }}"
 
 - name: Run Synapse container
   docker_container:
@@ -77,3 +85,16 @@
       LETSENCRYPT_HOST: "{{ inventory_hostname }}"
       LETSENCRYPT_EMAIL: "{{ certificate_email }}"
       VIRTUAL_PORT: "8008"
+
+- name: Create initial admin user
+  ansible.builtin.shell:
+    cmd: >
+      (docker exec
+      -it {{ container_name }} register_new_matrix_user
+      http://localhost:8008
+      --config /config/homeserver.yaml
+      --user {{ synapse_initial_admin_user }}
+      --password {{ synapse_initial_admin_user }}
+      --admin)
+      >> {{ synapse_config_dir }}/initial-admin-user.txt
+    creates: "{{ synapse_config_dir }}/initial-admin-user.txt"

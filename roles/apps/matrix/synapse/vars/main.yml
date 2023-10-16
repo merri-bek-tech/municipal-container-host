@@ -3,3 +3,5 @@ container_name: synapse
 synapse_docker_image: matrixdotorg/synapse
 synapse_uid: 991
 synapse_gid: 991
+synapse_initial_admin_user: admin
+synapse_initial_admin_password: admin
