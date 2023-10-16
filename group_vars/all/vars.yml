@@ -2,3 +2,4 @@ docker_dir: /opt/docker/data
 timezone: Australia/Melbourne
 ansible_user: root
 certificate_email: admin@merri-bek.tech
+default_command_retries: 3

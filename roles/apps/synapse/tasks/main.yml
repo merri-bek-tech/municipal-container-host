@@ -1,0 +1,73 @@
+---
+- name: "{{ container_name }} facts"
+  ansible.builtin.set_fact:
+    synapse_container_dir: "{{ docker_dir }}/{{ container_name }}"
+    synapse_config_dir: "{{ docker_dir }}/{{ container_name }}/config"
+    synapse_data_dir: "{{ docker_dir }}/{{ container_name }}/data"
+
+- name: Create the container directory
+  file:
+     path: '{{ synapse_container_dir }}'
+     state: directory
+     recurse: no
+     mode: "770"
+
+- name: Create the confg directory
+  file:
+    path: '{{ synapse_config_dir }}'
+    state: directory
+    recurse: no
+    mode: "750"
+    owner: "{{ synapse_uid }}"
+    group: "{{ synapse_gid }}"
+
+- name: Create the data directory
+  file:
+    path: '{{ synapse_data_dir }}'
+    state: directory
+    recurse: no
+    mode: "750"
+    owner: "{{ synapse_uid }}"
+    group: "{{ synapse_gid }}"
+
+- name: Ensure Synapse Docker image is pulled
+  community.docker.docker_image:
+    name: "{{ synapse_docker_image }}"
+    source: "pull"
+  register: result
+  retries: "{{ default_command_retries }}"
+  until: result is not failed
+
+- name: Generate initial Synapse config and signing key
+  ansible.builtin.command:
+    cmd: |
+      docker run
+      --rm
+      --name=synapse-config
+      --user={{ synapse_uid }}:{{ synapse_gid }}
+      --cap-drop=ALL
+      --mount type=bind,src={{ synapse_config_dir }},dst=/config
+      --mount type=bind,src={{ synapse_data_dir }},dst=/data
+      -e SYNAPSE_SERVER_NAME={{ synapse_server_name }}
+      -e SYNAPSE_REPORT_STATS=no
+      -e SYNAPSE_CONFIG_DIR=/config
+      -e SYNAPSE_DATA_DIR=/data
+      {{ synapse_docker_image }}
+      generate
+    creates: "{{ synapse_config_dir }}/{{ synapse_server_name }}.signing.key"
+
+# - name: Generate {{ container_name }} config
+#   docker_container:
+#     name: "{{ container_name }}"
+#     image: matrixdotorg/synapse:latest
+#     command: generate
+#     state: present
+#     recreate: yes
+#     volumes:
+#       - "{{ synapse_data_dir }}:/data"
+#       - "{{ synapse_config_dir }}:/config"
+#     env:
+#       SYNAPSE_SERVER_NAME: "{{ synapse_server_name }}"
+#       SYNAPSE_REPORT_STATS: "no"
+#       SYNAPSE_CONFIG_DIR: "/config"
+#       SYNAPSE_DATA_DIR: "/data"
